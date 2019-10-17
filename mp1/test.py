@@ -39,8 +39,7 @@ def loadXMLandDivideTest(filepath, testPercent):
     """
     Given a path to a xml file, return KB and test arrays containing
     questions-answers sets, where the test set is achieved by removing 
-    one question per questions-answer sets given a testPercent random 
-    choice of sets to remove from.
+    testPercent of the questions.
     """
 
     # get root of xml
@@ -88,11 +87,64 @@ def loadXMLandDivideTest(filepath, testPercent):
 
     return [KB, testArray]
 
+def loadXMLandDivideRandomly(filepath, testPercent):
+    """
+    Given a path to a xml file, return KB and test arrays containing
+    questions-answers sets, where the test set is achieved by removing 
+    one question per questions-answer sets given a testPercent random 
+    choice of sets to remove from.
+    """
+
+    # get root of xml
+    root = ET.parse(filepath).getroot()
+
+    # base list of list pairs of [question, answer id]
+    questions = []
+
+    i = 0
+    # Get every set of questions and answer
+    for faq in root.iter('faq'):
+        # get answer
+        answer = faq.findall('resposta')[0]
+
+        # get answer id
+        id = answer.attrib['id']
+
+        # loop on all questions on this faq set
+        for question in faq.iter('pergunta'):
+            # add to questions list
+            questions.append([question.text, id])
+        i += 1
+
+    test = []
+    # Get sample of questions-answers sets to remove using testPercent
+    size = len(questions)
+    toRemove = rnd.sample(range(size), int(size*testPercent))
+    toRemove.sort()
+    k = 0
+    for idxSet in toRemove:
+        questionToRemove = questions[idxSet-k]
+        test.append(questionToRemove)
+        del questions[idxSet-k]
+        k +=1
+    testArray = np.asarray(test)
+
+    KB = np.asarray(questions)
+
+    return [KB, testArray]
+
 KB = loadXML('./data/KB.xml')
 ret = loadXMLandDivideTest('./data/KB.xml', 0.20)
+ret2 = loadXMLandDivideRandomly('./data/KB.xml', 0.20)
 KB2 = ret[0]
-testArray = ret[1]
+testArray2 = ret[1]
+KB3 = ret2[0]
+testArray3 = ret2[1]
 print(KB.shape)
 print(KB2.shape)
-print(testArray.shape)
-print(KB2.shape[0] + testArray.shape[0])
+print(testArray2.shape)
+print(KB2.shape[0] + testArray2.shape[0])
+
+print(KB3.shape)
+print(testArray3.shape)
+print(KB3.shape[0] + testArray3.shape[0])
