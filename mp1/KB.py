@@ -133,18 +133,18 @@ def loadXMLandDivideRandomly(filepath, testPercent):
 
     return [KB, testArray]
 
-KB = loadXML('./data/KB.xml')
-ret = loadXMLandDivideTest('./data/KB.xml', 0.20)
-ret2 = loadXMLandDivideRandomly('./data/KB.xml', 0.20)
-KB2 = ret[0]
-testArray2 = ret[1]
-KB3 = ret2[0]
-testArray3 = ret2[1]
-print(KB.shape)
-print(KB2.shape)
-print(testArray2.shape)
-print(KB2.shape[0] + testArray2.shape[0])
+# KB = loadXML('./data/KB.xml')
+# ret = loadXMLandDivideTest('./data/KB.xml', 0.30)
+# ret2 = loadXMLandDivideRandomly('./data/KB.xml', 0.30)
+# KB2 = ret[0]
+# testArray2 = ret[1]
+# KB3 = ret2[0]
+# testArray3 = ret2[1]
+# print(KB.shape)
+# print(KB2.shape)
+# print(testArray2.shape)
+# print(KB2.shape[0] + testArray2.shape[0])
 
-print(KB3.shape)
-print(testArray3.shape)
-print(KB3.shape[0] + testArray3.shape[0])
+# print(KB3.shape)
+# print(testArray3.shape)
+# print(KB3.shape[0] + testArray3.shape[0])
