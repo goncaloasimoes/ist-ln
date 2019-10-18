@@ -3,6 +3,7 @@ from mainbot import processTest
 from preprocessing import combination
 from similarity import jaccard, edit
 import random as rnd 
+from statistics import median
 
 def runTesting(testPercent, n_samples):
     samples_accuracy = []
@@ -42,8 +43,8 @@ def runTesting(testPercent, n_samples):
         print(str(n_sample+1) + " done with " + str(correct/test.shape[0]))
 
     #Get average accuracy
-    print('Average Test Accuracy given ' + str(n_samples) + ' samples: ' + 
-        str(sum(samples_accuracy)/len(samples_accuracy))
+    print('Median Test Accuracy given ' + str(n_samples) + ' samples: ' + 
+        str(median(samples_accuracy))
     )
 
 runTesting(.20, 20)
