@@ -3,6 +3,13 @@ from preprocessing import remove_new_line
 import math
 
 def processTest(KB, test, preprocessing, similarity):
+    """
+    Receive a KB and test set, and using the preprocessing and 
+    similarity functions given, process the test set using a retrieval 
+    based method with KB as the knowledge base.
+    Results are returned in a list and written to a file resultados.txt.
+    """
+
     results = open('resultados.txt', "w+")
     resultsList = []
     for test_question in test:
