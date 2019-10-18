@@ -1,40 +1,49 @@
 from KB import loadXMLandDivideTest, loadXMLandDivideRandomly
 from mainbot import processTest
-from preprocessing import remove_new_line, remove_leading_trailing_whitespace
+from preprocessing import combination
+from similarity import jaccard, edit
 import random as rnd 
 
-ret = loadXMLandDivideTest('./data/KB.xml', .20)
-KB = ret[0]
-test = ret[1]
+def runTesting(testPercent, n_samples):
+    samples_accuracy = []
+    for n_sample in range(n_samples):
+        ret = loadXMLandDivideTest('./data/KB.xml', .20)
+        KB = ret[0]
+        test = ret[1]
 
-# TODO: preprocess KB
-preprocessing = lambda x: remove_leading_trailing_whitespace(
-                            remove_new_line(x)
-                        ) # TODO:
-k = 0
-for question in KB:
-    KB[k,0] = preprocessing(question[0])
-    k+=1
-#print(KB)
+        # TODO: preprocess KB
+        preprocessing = combination # TODO:
+        k = 0
+        for question in KB:
+            KB[k,0] = preprocessing(question[0])
+            k+=1
 
-# TODO: add functions of preprocessing and similarity
-resultsList = processTest(
-    KB, 
-    test, 
-    lambda x: x, # preprocessing
-    lambda x,y: rnd.randint(0,100) # similarity
-)
+        # TODO: add functions of preprocessing and similarity
+        resultsList = processTest(
+            KB, 
+            test[:,0], 
+            preprocessing, # preprocessing
+            jaccard # similarity
+        )
 
-# TODO: get measures
-correct = 0
-wrong = 0
-k = 0
-for result in resultsList:
-    if result == test[k,1]:
-        correct += 1
-    wrong += 1
-    k += 1
+        # TODO: get measures
+        correct = 0
+        wrong = 0
+        k = 0
+        for result in resultsList:
+            if result == test[k,1]:
+                correct += 1
+            wrong += 1
+            k += 1
+        samples_accuracy.append(correct/test.shape[0])
+        #print(correct)
+        #print(wrong)
+        #print('Test Accuracy: ' + str(correct/test.shape[0]))
+        print(str(n_sample+1) + " done with " + str(correct/test.shape[0]))
 
-print(correct)
-print(wrong)
-print('Test Accuracy: ' + str(correct/test.shape[0]))
+    #Get average accuracy
+    print('Average Test Accuracy given ' + str(n_samples) + ' samples: ' + 
+        str(sum(samples_accuracy)/len(samples_accuracy))
+    )
+
+runTesting(.20, 20)

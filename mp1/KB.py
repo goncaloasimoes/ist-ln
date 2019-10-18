@@ -26,6 +26,8 @@ def loadXML(filepath):
 
         # loop on all questions on this faq set
         for question in faq.iter('pergunta'):
+            if len(question.text.strip()) == 0:
+                continue
             # add to questions list
             questions.append([question.text, id])
         i += 1
@@ -60,6 +62,8 @@ def loadXMLandDivideTest(filepath, testPercent):
         aux_questions = []
         # loop on all questions on this faq set
         for question in faq.iter('pergunta'):
+            if len(question.text.strip()) == 0:
+                continue
             # add to questions list
             aux_questions.append(question.text)
         questions.append([aux_questions, id])
@@ -112,6 +116,8 @@ def loadXMLandDivideRandomly(filepath, testPercent):
 
         # loop on all questions on this faq set
         for question in faq.iter('pergunta'):
+            if len(question.text.strip()) == 0:
+                continue
             # add to questions list
             questions.append([question.text, id])
         i += 1
