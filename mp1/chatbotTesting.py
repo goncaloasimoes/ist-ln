@@ -25,7 +25,7 @@ def runTesting(testPercent, n_samples):
             KB, 
             test[:,0], 
             preprocessing, # preprocessing
-            jaccard # similarity
+            dice # similarity
         )
 
         # TODO: get measures
