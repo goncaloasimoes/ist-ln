@@ -1,7 +1,7 @@
 from KB import loadXMLandDivideTest, loadXMLandDivideRandomly
 from mainbot import processTest
 from preprocessing import combination3
-from similarity import jaccard, edit
+from similarity import jaccard, edit, dice
 import random as rnd 
 from statistics import median
 
@@ -24,7 +24,7 @@ def runTesting(testPercent, n_samples):
             KB, 
             test[:,0], 
             preprocessing, # preprocessing
-            jaccard # similarity
+            dice # similarity
         )
 
         # TODO: get measures
@@ -47,4 +47,4 @@ def runTesting(testPercent, n_samples):
         str(median(samples_accuracy))
     )
 
-runTesting(.20, 20)
+runTesting(.20, 1)
