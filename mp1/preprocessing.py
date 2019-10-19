@@ -25,8 +25,6 @@ def combination1(question):
     question = default_processing(question)
     question = remove_stopwords(question, STOPWORDS)
 
-    print(question)
-
     return question
 
 def combination2(question):
@@ -35,8 +33,6 @@ def combination2(question):
     """
     question = default_processing(question)
     question = stemming(question)
-
-    print(question)
 
     return question
 
@@ -83,7 +79,7 @@ def first_char_lowercase(question):
 
 def remove_stopwords(question, stopwords):
     """
-    Remove stopwords 
+    Removes stopwords
     """
     question = question.split()
     phrase = []
@@ -93,14 +89,7 @@ def remove_stopwords(question, stopwords):
         question = ' '.join(phrase) #Reconstructing question
 
     return question
-"""
-    # Reconstructing question back
-    question = ''
-    for word in phrase:
-        question += word
 
-    return question
-"""
 def stemming(question):
     """
     Performs Stemming
