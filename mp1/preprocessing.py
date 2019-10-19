@@ -48,20 +48,20 @@ def combination3(question):
 
 def remove_new_line(question):
     """
-    Remove new lines from questions since some questions in KB have too
+    Removes new lines from questions since some questions in KB have too
     many lines
     """
     return question.replace('\n','')
     
 def remove_leading_trailing_whitespace(question):
     """
-    Remove leading and trailing whitespace.
+    Removes leading and trailing whitespace.
     """
     return question.strip().lstrip()
 
 def remove_punctuation(question):
     """
-    Remove punctuation from a question.
+    Removes punctuation from a question.
     """
     return re.sub(r"[?|\.|!|:|,|;]", '', question)
 
@@ -92,7 +92,7 @@ def remove_stopwords(question, stopwords):
 
 def stemming(question):
     """
-    Performs Stemming
+    Performs stemming
     """
     stemmer = nltk.stem.RSLPStemmer()
 
