@@ -1,6 +1,6 @@
 from KB import loadXMLandDivideTest, loadXMLandDivideRandomly
 from mainbot import processTest
-from preprocessing import combination
+from preprocessing import combination3
 from similarity import jaccard, edit
 import random as rnd 
 from statistics import median
@@ -13,7 +13,7 @@ def runTesting(testPercent, n_samples):
         test = ret[1]
 
         # TODO: preprocess KB
-        preprocessing = combination # TODO:
+        preprocessing = combination3 # TODO:
         k = 0
         for question in KB:
             KB[k,0] = preprocessing(question[0])
