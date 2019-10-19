@@ -1,6 +1,6 @@
 from KB import loadXMLandDivideVali, loadXMLandDivideRandomly
-from mainbot import processTest
-from preprocessing import combination
+from mainbot import processTest, processTestNoThreads
+from preprocessing import combination3
 from similarity import jaccard, edit, dice
 import random as rnd 
 import numpy as np
@@ -14,7 +14,7 @@ def runTesting(testPercent, n_samples):
         test = ret[1]
 
         # TODO: preprocess KB
-        preprocessing = combination # TODO:
+        preprocessing = combination3 # TODO:
         k = 0
         for question in KB:
             KB[k,0] = preprocessing(question[0])
@@ -48,16 +48,16 @@ def runTesting(testPercent, n_samples):
         str(median(samples_accuracy))
     )
 
-def runTestingWithDesen():
+def runTestingWithValidationSet():
     KB = np.load("./data/KB.npy")
     vali = np.load("./data/desen.npy")
     # preprocess KB
-    preproc = lambda x: combination(x)
+    preproc = lambda x: combination3(x)
     func = np.vectorize(preproc)
     KB[:,0] = func(KB[:,0])
 
     # TODO: add functions of preprocessing and similarity
-    resultsList = processTest(
+    resultsList = processTestNoThreads(
         KB, 
         vali[:,0], 
         preproc, # preprocessing
@@ -76,4 +76,4 @@ def runTestingWithDesen():
     print(correct/vali.shape[0])
         
 
-runTestingWithDesen()
+runTestingWithValidationSet()

@@ -1,9 +1,8 @@
 from preprocessing import remove_new_line
-#from similarity import
 import math
 from threading import Thread
 import numpy as np
-
+import statistics
 
 def processTest(KB, test, preprocessing, similarity):
     """
@@ -101,14 +100,36 @@ def processTestNoThreads(KB, test, preprocessing, similarity):
         best_question_id = -1
         best_similarity_value = math.inf
         # loop retrieval and similarity assessment
+        a_id = KB[0,1]
+        similarity_faq = []
         for kb_question in KB:
+            if kb_question[1] != a_id:
+                mean = statistics.median_high(similarity_faq)
+                if mean < best_similarity_value:
+                    best_question_id =  a_id
+                    best_similarity_value = mean
+                a_id = kb_question[1]
+                similarity_faq = []
+
             value = similarity(kb_question[0], preproc_question)
-            if value < best_similarity_value:
-                best_question_id = kb_question[1]
-                best_similarity_value = value
+            similarity_faq.append(value)
+        
+        # last one
+        mean = statistics.median_high(similarity_faq)
+        if mean < best_similarity_value:
+            best_question_id =  a_id
+            best_similarity_value = mean
         # write to results file
-        results.write(best_question_id + '\n') 
+        results.write(str(best_question_id) + '\n') 
         # append to results list
         resultsList.append(best_question_id)
     results.close()
     return resultsList
+
+# mean 0.75
+# median 0.77
+# harmonic_mean 0.75
+# median_low 0.75
+# median_high 0.80
+# median grouped 1 0.34
+# median grouped 2 0.11
