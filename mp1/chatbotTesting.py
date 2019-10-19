@@ -1,14 +1,15 @@
-from KB import loadXMLandDivideTest, loadXMLandDivideRandomly
+from KB import loadXMLandDivideVali, loadXMLandDivideRandomly
 from mainbot import processTest
 from preprocessing import combination
-from similarity import jaccard, edit
+from similarity import jaccard, edit, dice
 import random as rnd 
+import numpy as np
 from statistics import median
 
 def runTesting(testPercent, n_samples):
     samples_accuracy = []
     for n_sample in range(n_samples):
-        ret = loadXMLandDivideTest('./data/KB.xml', .20)
+        ret = loadXMLandDivideVali('./data/KB.xml', .20)
         KB = ret[0]
         test = ret[1]
 
@@ -47,4 +48,32 @@ def runTesting(testPercent, n_samples):
         str(median(samples_accuracy))
     )
 
-runTesting(.20, 20)
+def runTestingWithDesen():
+    KB = np.load("./data/KB.npy")
+    vali = np.load("./data/desen.npy")
+    # preprocess KB
+    preproc = lambda x: combination(x)
+    func = np.vectorize(preproc)
+    KB[:,0] = func(KB[:,0])
+
+    # TODO: add functions of preprocessing and similarity
+    resultsList = processTest(
+        KB, 
+        vali[:,0], 
+        preproc, # preprocessing
+        dice # similarity
+    )
+
+    # TODO: get measures
+    correct = 0
+    wrong = 0
+    k = 0
+    for result in resultsList:
+        if result == vali[k,1]:
+            correct += 1
+        wrong += 1
+        k += 1
+    print(correct/vali.shape[0])
+        
+
+runTestingWithDesen()
