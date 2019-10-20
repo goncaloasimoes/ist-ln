@@ -104,10 +104,10 @@ def processTestNoThreads(KB, test, preprocessing, similarity):
         similarity_faq = []
         for kb_question in KB:
             if kb_question[1] != a_id:
-                mean = statistics.median_high(similarity_faq)
-                if mean < best_similarity_value:
+                stat = statistics.harmonic_mean(similarity_faq)
+                if stat < best_similarity_value:
                     best_question_id =  a_id
-                    best_similarity_value = mean
+                    best_similarity_value = stat
                 a_id = kb_question[1]
                 similarity_faq = []
 
@@ -115,10 +115,10 @@ def processTestNoThreads(KB, test, preprocessing, similarity):
             similarity_faq.append(value)
         
         # last one
-        mean = statistics.median_high(similarity_faq)
-        if mean < best_similarity_value:
+        stat = statistics.harmonic_mean(similarity_faq)
+        if stat < best_similarity_value:
             best_question_id =  a_id
-            best_similarity_value = mean
+            best_similarity_value = stat
         # write to results file
         results.write(str(best_question_id) + '\n') 
         # append to results list
@@ -126,10 +126,9 @@ def processTestNoThreads(KB, test, preprocessing, similarity):
     results.close()
     return resultsList
 
-# mean 0.75
-# median 0.77
-# harmonic_mean 0.75
-# median_low 0.75
-# median_high 0.80
-# median grouped 1 0.34
-# median grouped 2 0.11
+# mean 0.95
+# median 0.91
+# harmonic_mean 0.95
+# median_low 0.89
+# median_high 0.91
+# median grouped 1 .44

@@ -56,6 +56,28 @@ def runTestingWithValidationSet():
     func = np.vectorize(preproc)
     KB[:,0] = func(KB[:,0])
 
+    # duplicates
+    dupes = {}
+    for i in range(KB.shape[0]):
+        question = KB[i,0]
+        for j in range(KB.shape[0]):
+            if i == j:
+                continue
+            if question == KB[j,0]:
+                dupes[KB[i,1]] = KB[j,1]
+                dupes[KB[j,1]] = KB[i,1]
+
+
+    # print(KB.shape)
+    # aux = np.unique(KB[:,0],return_index=True, return_inverse=True)
+    # print(aux[2].shape)
+    # KB = KB[aux[1]]
+    #print(new.shape)
+    # u, c = np.unique(KB[:,0], return_counts=True)
+    # dup = u[c > 1]
+    # print(dup.shape)
+        
+    
     # TODO: add functions of preprocessing and similarity
     resultsList = processTestNoThreads(
         KB, 
@@ -71,9 +93,17 @@ def runTestingWithValidationSet():
     for result in resultsList:
         if result == vali[k,1]:
             correct += 1
-        wrong += 1
+        elif (vali[k,1] in dupes) and result == dupes[vali[k,1]]:
+            correct += 1
+        else:
+            print(vali[k,0],vali[k,1])
+            print(preproc(vali[k,0]))
+            print(KB[KB[:,1] == result][0])
+            print('\n')
+            wrong += 1
         k += 1
     print(correct/vali.shape[0])
-        
+
+  
 
 runTestingWithValidationSet()

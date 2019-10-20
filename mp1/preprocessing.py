@@ -65,6 +65,12 @@ def remove_punctuation(question):
     """
     return re.sub(r"[?|\.|!|:|,|;]", '', question)
 
+def remove_parenthesis(question):
+    """
+    Removes punctuation from a question.
+    """
+    return re.sub(r"[(|)]", '', question)
+
 def all_lowercase(question):
     """
     Lower case all of the string.
@@ -96,7 +102,7 @@ def stemming(question):
     """
     stemmer = nltk.stem.RSLPStemmer()
 
-    question = word_tokenize(question)
+    question = word_tokenize(question, language="portuguese")
     phrase = []
     for w in question:
         w = stemmer.stem(w)
@@ -110,6 +116,7 @@ def remove_accents(question):
     Removes accents
     """
     question = re.sub(u"ã", 'a', question)
+    question = re.sub(u"â", 'a', question)
     question = re.sub(u"á", "a", question)
     question = re.sub(u"à", "a", question)
     question = re.sub(u"õ", "o", question)
@@ -121,11 +128,12 @@ def remove_accents(question):
     question = re.sub(u"ú", "u", question)
     question = re.sub(u"ç", "c", question)
     question = re.sub(u"Ã", 'A', question)
+    question = re.sub(u"Â", 'A', question)
     question = re.sub(u"Á", "A", question)
     question = re.sub(u"À", "A", question)
     question = re.sub(u"Õ", "O", question)
     question = re.sub(u"Ô", "O", question)
-    question = re.sub(u"Ô", "O", question)
+    question = re.sub(u"Ò", 'O', question)
     question = re.sub(u"Ó", 'O', question)
     question = re.sub(u"Í", "I", question)
     question = re.sub(u"Ú", "U", question)
@@ -139,11 +147,12 @@ def default_processing(question):
     Does the default processing
     """
     question = remove_accents(question)       # Removing accents
-    question = remove_punctuation(question)   # Lowercasing
-    question = all_lowercase(question)        # Removing punctuation
+    question = remove_punctuation(question)   # Removing punctuation
+    question = all_lowercase(question)        # Lowercasing
+    question = remove_parenthesis(question)   # Remove parenthesis
 
     return question
 
 
-# taken from https://gist.github.com/alopes/5358189
-STOPWORDS = ["de","a","o","que","e","do","da","em","um","para","é","com","não","uma","os","no","se","na","por","mais","as","dos","como","mas","foi","ao","ele","das","tem","à","seu","sua","ou","ser","quando","muito","há","nos","já","está","eu","também","só","pelo","pela","até","isso","ela","entre","era","depois","sem","mesmo","aos","ter","seus","quem","nas","me","esse","eles","estão","você","tinha","foram","essa","num","nem","suas","meu","às","minha","têm","numa","pelos","elas","havia","seja","qual","será","nós","tenho","lhe","deles","essas","esses","pelas","este","fosse","dele","tu","te","vocês","vos","lhes","meus","minhas","teu","tua","teus","tuas","nosso","nossa","nossos","nossas","dela","delas","esta","estes","estas","aquele","aquela","aqueles","aquelas","isto","aquilo","estou","está","estamos","estão","estive","esteve","estivemos","estiveram","estava","estávamos","estavam","estivera","estivéramos","esteja","estejamos","estejam","estivesse","estivéssemos","estivessem","estiver","estivermos","estiverem","hei","há","havemos","hão","houve","houvemos","houveram","houvera","houvéramos","haja","hajamos","hajam","houvesse","houvéssemos","houvessem","houver","houvermos","houverem","houverei","houverá","houveremos","houverão","houveria","houveríamos","houveriam","sou","somos","são","era","éramos","eram","fui","foi","fomos","foram","fora","fôramos","seja","sejamos","sejam","fosse","fôssemos","fossem","for","formos","forem","serei","será","seremos","serão","seria","seríamos","seriam","tenho","tem","temos","tém","tinha","tínhamos","tinham","tive","teve","tivemos","tiveram","tivera","tivéramos","tenha","tenhamos","tenham","tivesse","tivéssemos","tivessem","tiver","tivermos","tiverem","terei","terá","teremos","terão","teria","teríamos","teriam"]
+# taken from https://gist.github.com/alopes/5358189 with some added
+STOPWORDS = ["quais", "de","a","o","que","e","do","da","em","um","para","é","com","não","uma","os","no","se","na","por","mais","as","dos","como","mas","foi","ao","ele","das","tem","à","seu","sua","ou","ser","quando","muito","há","nos","já","está","eu","também","só","pelo","pela","até","isso","ela","entre","era","depois","sem","mesmo","aos","ter","seus","quem","nas","me","esse","eles","estão","você","tinha","foram","essa","num","nem","suas","meu","às","minha","têm","numa","pelos","elas","havia","seja","qual","será","nós","tenho","lhe","deles","essas","esses","pelas","este","fosse","dele","tu","te","vocês","vos","lhes","meus","minhas","teu","tua","teus","tuas","nosso","nossa","nossos","nossas","dela","delas","esta","estes","estas","aquele","aquela","aqueles","aquelas","isto","aquilo","estou","está","estamos","estão","estive","esteve","estivemos","estiveram","estava","estávamos","estavam","estivera","estivéramos","esteja","estejamos","estejam","estivesse","estivéssemos","estivessem","estiver","estivermos","estiverem","hei","há","havemos","hão","houve","houvemos","houveram","houvera","houvéramos","haja","hajamos","hajam","houvesse","houvéssemos","houvessem","houver","houvermos","houverem","houverei","houverá","houveremos","houverão","houveria","houveríamos","houveriam","sou","somos","são","era","éramos","eram","fui","foi","fomos","foram","fora","fôramos","seja","sejamos","sejam","fosse","fôssemos","fossem","for","formos","forem","serei","será","seremos","serão","seria","seríamos","seriam","tenho","tem","temos","tém","tinha","tínhamos","tinham","tive","teve","tivemos","tiveram","tivera","tivéramos","tenha","tenhamos","tenham","tivesse","tivéssemos","tivessem","tiver","tivermos","tiverem","terei","terá","teremos","terão","teria","teríamos","teriam"]
