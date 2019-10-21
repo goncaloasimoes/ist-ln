@@ -11,6 +11,9 @@ def jaccard(string1, string2):
     )
 
 def dice(string1, string2):
+    '''
+    Dice distance
+    '''
     set1 = set(string1.split())
     set2 = set(string2.split())
     return 1-(2*(len(set1.intersection(set2)))) / (len(set1) + len(set2))
