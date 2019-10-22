@@ -19,10 +19,12 @@ def combination(question):
 '''
 
 func_name_to_str = {
+    "combination4": 'Accents, Punctuation, lowercase all, remove parenthesis',
     "combination1": 'Accents, Punctuation, lowercase all, remove parenthesis, stopwords',
     "combination2": 'Accents, Punctuation, lowercase all, remove parenthesis, stemming',
     "combination3": 'Accents, Punctuation, lowercase all, remove parenthesis, stopwords, stemming'
 }
+
 def combination1(question):
     """
     Combining default processing with stopwords
@@ -48,6 +50,14 @@ def combination3(question):
     question = default_processing(question)
     question = remove_stopwords(question, STOPWORDS)
     question = stemming(question)
+
+    return question
+
+def combination4(question):
+    """
+    Combining default processing
+    """
+    question = default_processing(question)
 
     return question
 
