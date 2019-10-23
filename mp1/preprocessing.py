@@ -46,19 +46,6 @@ def combination4(question):
 
     return question
 
-def remove_new_line(question):
-    """
-    Removes new lines from questions since some questions in KB have too
-    many lines
-    """
-    return question.replace('\n','')
-    
-def remove_leading_trailing_whitespace(question):
-    """
-    Removes leading and trailing whitespace.
-    """
-    return question.strip().lstrip()
-
 def remove_punctuation(question):
     """
     Removes punctuation from a question.
@@ -70,12 +57,6 @@ def all_lowercase(question):
     Lower case all of the string.
     """
     return question.lower()
-
-def first_char_lowercase(question):
-    """
-    Lower case of only first character.
-    """
-    return question[0].lower() + question[1:]
 
 def remove_stopwords(question, stopwords):
     """

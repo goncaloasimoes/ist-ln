@@ -135,7 +135,7 @@ def runTestSet():
 
     # preprocess KB (for dupes)
     copyKB = np.copy(KB)
-    func = np.vectorize(combination4) # whitespace
+    func = np.vectorize(combination4) # default
     copyKB[:,0] = func(copyKB[:,0])
 
     # duplicates

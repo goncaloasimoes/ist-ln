@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 import numpy as np
 import random as rnd
-from preprocessing import remove_new_line, remove_leading_trailing_whitespace
 
 def loadXML(filepath):
     """
