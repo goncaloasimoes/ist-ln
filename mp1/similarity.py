@@ -26,3 +26,4 @@ def edit(string1, string2):
         string1.split(),
         string2.split()
     )
+

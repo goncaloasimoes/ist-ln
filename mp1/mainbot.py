@@ -4,6 +4,9 @@ from threading import Thread
 import numpy as np
 import statistics
 
+# THRESHOLD FOR JACCARD/DICE
+THRESHOLD = 0.6
+
 def processTest(KB, test, preprocessing, similarity):
     """
     Receive a KB and test set, and using the preprocessing and 
@@ -25,6 +28,9 @@ def processTest(KB, test, preprocessing, similarity):
             if value < best_similarity_value:
                 best_question_id = KB[k,1]
                 best_similarity_value = value
+        # threshold
+        if similarity.__name__ != 'edit' and best_similarity_value > THRESHOLD:
+            best_question_id = '0'
         # write to results file
         results.write(best_question_id + '\n') 
         # append to results list
@@ -45,9 +51,7 @@ def processTestGrouping(KB, test, preprocessing, similarity):
     resultsList = []
     for test_question in test:
         # preprocess test question
-        preproc_question = preprocessing(test_question)
-        #TODO: add threading here (divide KB into 4)
-        
+        preproc_question = preprocessing(test_question)        
         # set values for finding max
         best_question_id = -1
         best_similarity_value = math.inf
@@ -71,6 +75,9 @@ def processTestGrouping(KB, test, preprocessing, similarity):
         if stat < best_similarity_value:
             best_question_id =  a_id
             best_similarity_value = stat
+        # threshold
+        if similarity.__name__ != 'edit' and best_similarity_value > THRESHOLD:
+            best_question_id = '0'
         # write to results file
         results.write(str(best_question_id) + '\n') 
         # append to results list
@@ -78,9 +85,10 @@ def processTestGrouping(KB, test, preprocessing, similarity):
     results.close()
     return resultsList
 
-# mean 0.95
-# median 0.91
-# harmonic_mean 0.95
-# median_low 0.89
-# median_high 0.91
-# median grouped 1 .44
+# GROUP
+# mean 0.919
+# median 0.878 1by1 91.1
+# harmonic_mean 93.5 91.1
+# median_low 0.86 91.1
+# median_high 86.2 91.1
+# median grouped-1 .44

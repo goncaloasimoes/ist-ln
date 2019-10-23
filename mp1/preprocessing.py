@@ -2,22 +2,7 @@ import re
 import nltk
 from nltk.tokenize import word_tokenize
 
-'''
-def combination(question):
-    """
-    One possible combination of preprocessing techniques to use.
-    """
-    question = remove_accents(question)
-
-    return remove_leading_trailing_whitespace(
-            remove_new_line(
-            remove_punctuation(
-            all_lowercase(
-                question
-            )))
-    )
-'''
-
+# Used for printing results during testing
 func_name_to_str = {
     "combination4": 'Accents, Punctuation, lowercase all, remove parenthesis',
     "combination1": 'Accents, Punctuation, lowercase all, remove parenthesis, stopwords',
@@ -79,12 +64,6 @@ def remove_punctuation(question):
     Removes punctuation from a question.
     """
     return re.sub(r"[?|\.|!|:|,|;]", '', question)
-
-def remove_parenthesis(question):
-    """
-    Removes punctuation from a question.
-    """
-    return re.sub(r"[(|)]", '', question)
 
 def all_lowercase(question):
     """
@@ -164,8 +143,6 @@ def default_processing(question):
     question = remove_accents(question)       # Removing accents
     question = remove_punctuation(question)   # Removing punctuation
     question = all_lowercase(question)        # Lowercasing
-    question = remove_parenthesis(question)   # Remove parenthesis
-
     return question
 
 

@@ -1,8 +1,10 @@
 import argparse
 from KB import loadXML
-from preprocessing import remove_new_line, remove_leading_trailing_whitespace
-from mainbot import processTest
+from preprocessing import combination3
+from similarity import jaccard
+from mainbot import processTestGrouping
 import random as rnd
+import numpy as np
 
 def main():
     # Deal with arguments
@@ -25,14 +27,10 @@ def main():
     KB = loadXML(args.kb)
     
     # Preprocess KB
-    #TODO: set preprocessing 
-    preprocessing = lambda x: remove_leading_trailing_whitespace(
-                            remove_new_line(x)
-                        ) # TODO:
-    k = 0
-    for question in KB:
-        KB[k,0] = preprocessing(question[0])
-        k+=1
+    # Default, Stemming, Stopwords
+    preprocessing = combination3 
+    func = np.vectorize(preprocessing)
+    KB[:,0] = func(KB[:,0])
     
     # Load questions in test into list
     test = []
@@ -41,11 +39,11 @@ def main():
     test = [question.strip() for question in test]
 
     # call mainbot.py
-    processTest(
+    processTestGrouping(
         KB,
         test,
-        lambda x: x, #TODO
-        lambda x,y: rnd.randint(1,100) #TODO
+        preprocessing,
+        jaccard
     )
 
 
