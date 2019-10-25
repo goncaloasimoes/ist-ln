@@ -1,7 +1,7 @@
 import argparse
 from KB import loadXML
 from preprocessing import combination3
-from similarity import jaccard
+from similarity import dice
 from mainbot import processTestGrouping
 import random as rnd
 import numpy as np
@@ -43,7 +43,7 @@ def main():
         KB,
         test,
         preprocessing,
-        jaccard
+        dice
     )
 
 
