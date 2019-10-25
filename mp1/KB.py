@@ -216,24 +216,6 @@ def loadXMLandDivideTestValidation(filepath, valiPercent, testPercent):
 
     return [KB, valiArray, testArray]
 
-# KB = loadXML('./data/KB.xml')
-# ret = loadXMLandDivideTest('./data/KB.xml', 0.30)
-# ret2 = loadXMLandDivideRandomly('./data/KB.xml', 0.30)
-# KB2 = ret[0]
-# testArray2 = ret[1]
-# KB3 = ret2[0]
-# testArray3 = ret2[1]
-# print(KB.shape)
-# print(KB2.shape)
-# print(testArray2.shape)
-# print(KB2.shape[0] + testArray2.shape[0])
-
-# print(KB3.shape)
-# print(testArray3.shape)
-# print(KB3.shape[0] + testArray3.shape[0])
-
-
-
 def save_KB_vali_test():
     ret = loadXMLandDivideTestValidation('./data/KB.xml', .2, .1)
     KB = ret[0]
@@ -242,7 +224,3 @@ def save_KB_vali_test():
     np.save("./data/KB", KB)
     np.save("./data/desen", vali)
     np.save("./data/test", test)
-
-    # KBread = np.load("./data/KB.npy")
-    # valiread = np.load("./data/desen.npy")
-    # testread = np.load("./data/test.npy")
